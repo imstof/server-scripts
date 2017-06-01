@@ -29,7 +29,6 @@ do
 done
 
 # pull reason,user,timestamp,state,node from sinfo
-# SED-CUT IDLE+ DOWN+
 sinfo -N -o '%E=%u=%H=%t=%N' | grep -e down -e drain -e drng -e maint > ~/.temp/sinfo_out.txt
 
 # format output in file for email or echo
@@ -39,16 +38,20 @@ echo "=== DOWN ===" >> ~/.temp/status_report.txt
 cat ~/.temp/sinfo_out.txt | awk -F "=" '/down/ {printf "%-21.20s%-13.10s%-20s%-7s%s.\n", $1,$2,$3,$4,$5}' >> ~/.temp/status_report.txt
 echo >> ~/.temp/status_report.txt
 echo "=== DRAIN WITH ISSUES ===" >> ~/.temp/status_report.txt
-cat ~/.temp/sinfo_out.txt | awk -F "=" '/drain|drng|maint/ {printf "%-21.20s%-13.10s%-20s%-7s%s\n", $1,$2,$3,$4,$5}'
+cat ~/.temp/sinfo_out.txt | awk -F "=" '/drain|drng|maint/ {if ($1 != toupper($1)) printf "%-21.20s%-13.10s%-20s%-7s%s\n", $1,$2,$3,$4,$5}' >> ~/.temp/status_report.txt
 echo >> ~/.temp/status_report.txt
 echo "=== DRAIN ON PURPOSE ===" >> ~/.temp/status_report.txt
-# CRITERI[A,ON] FOR ON PURPOSE?
-
+cat ~/.temp/sinfo_out.txt | awk -F "=" '/drain|drng|maint/ {if ($1 == toupper($1)) printf "%-21.20s%-13.10s%-20s%-7s%s\n", $1,$2,$3,$4,$5}' >> ~/.temp/status_report.txt
 echo >> ~/.temp/status_report.txt
 echo "=== Jobs stuck in CG State ===" >> ~/.temp/status_report.txt
+#pipe through awk in case job_name has "CG" in string
+#test other than any CG at time script runs?
+squeue | awk '$5 == "CG"' >> ~/.temp/status_report.txt
+echo >> ~/.temp/status_report.txt
+echo "=== Active Reservations ===" >> ~/.temp/status_report.txt
+sinfo -T | grep ACTIVE >> ~/.temp/status_report.txt
 
 # send report to mail-list or echo
-# LEARN MORE ABOUT MAIL-LIST
 if [[ $NOMAIL == true ]]
 then
 	cat ~/.temp/status_report.txt
