@@ -2,6 +2,17 @@
 
 # slurm daily node status rewrite
 
+#help func
+show_help () {
+	echo
+	echo "Usage: `basename $0` [option...]"
+	echo "Generate report of problem nodes and mail to admin"
+	echo
+	echo "   -t	echo to terminal (no mail)"
+	echo "   -h	display this help and exit"
+	echo
+}
+
 # set variable for -t flag
 NOMAIL=false
 while getopts :ht opt
@@ -11,13 +22,7 @@ do
 			NOMAIL=true
 			;;
 		h)
-			echo
-			echo "Usage: `basename $0` [option...]"
-			echo "Generate report of problem nodes and mail to admin"
-			echo
-			echo "   -t	echo to terminal (no mail)"
-			echo "   -h	display this help and exit"
-			echo
+			show_help
 			exit 0
 			;;
 		\?)
