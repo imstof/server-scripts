@@ -34,24 +34,25 @@ do
 done
 
 # pull reason,user,timestamp,state,node from sinfo
-sinfo -N -o '%E=%u=%H=%t=%N' | grep -e down -e drain -e drng -e maint > ~/.temp/sinfo_out.txt
+sinfo -o '%E=%u=%H=%t=%N' | grep -e down -e drain -e drng -e maint > ~/.temp/sinfo_out.txt
 
 # format output in file for email or echo
 echo $(date +"%Y-%m-%d") >> ~/.temp/status_report.txt
 echo >> ~/.temp/status_report.txt
 echo "=== DOWN ===" >> ~/.temp/status_report.txt
-cat ~/.temp/sinfo_out.txt | awk -F "=" '/down/ {printf "%-21.20s%-13.10s%-20s%-7s%s.\n", $1,$2,$3,$4,$5}' >> ~/.temp/status_report.txt
+cat ~/.temp/sinfo_out.txt | awk -F "=" '/down/ {printf "%-23.20s%-7.5s%-22s%-7s%s.\n", $1,$2,$3,$4,$5}' >> ~/.temp/status_report.txt
 echo >> ~/.temp/status_report.txt
 echo "=== DRAIN WITH ISSUES ===" >> ~/.temp/status_report.txt
-cat ~/.temp/sinfo_out.txt | awk -F "=" '/drain|drng|maint/ {if ($1 != toupper($1)) printf "%-21.20s%-13.10s%-20s%-7s%s\n", $1,$2,$3,$4,$5}' >> ~/.temp/status_report.txt
+cat ~/.temp/sinfo_out.txt | awk -F "=" '/drain|drng|maint/ {if ($1 != toupper($1)) printf "%-23.20s%-7.5s%-22s%-7s%s\n", $1,$2,$3,$4,$5}' >> ~/.temp/status_report.txt
 echo >> ~/.temp/status_report.txt
 echo "=== DRAIN ON PURPOSE ===" >> ~/.temp/status_report.txt
-cat ~/.temp/sinfo_out.txt | awk -F "=" '/drain|drng|maint/ {if ($1 == toupper($1)) printf "%-21.20s%-13.10s%-20s%-7s%s\n", $1,$2,$3,$4,$5}' >> ~/.temp/status_report.txt
+cat ~/.temp/sinfo_out.txt | awk -F "=" '/drain|drng|maint/ {if ($1 == toupper($1)) printf "%-23.20s%-7.5s%-22s%-7s%s\n", $1,$2,$3,$4,$5}' >> ~/.temp/status_report.txt
 echo >> ~/.temp/status_report.txt
 echo "=== Jobs stuck in CG State ===" >> ~/.temp/status_report.txt
 #pipe through awk in case job_name has "CG" in string
 #test other than any CG at time script runs?
-squeue | awk '$5 == "CG"' >> ~/.temp/status_report.txt
+#squeue | awk '$5 == "CG"' >> ~/.temp/status_report.txt
+squeue | grep CG | tr -s ' ' | awk '{printf "%-9s%-11.9s%-12.10s%-10.8s%-4s%-6s%s\n",$1,$2,$3,$4,$5,$6,$8}' >> ~/.temp/status_report.txt
 echo >> ~/.temp/status_report.txt
 echo "=== Active Reservations ===" >> ~/.temp/status_report.txt
 sinfo -T | grep ACTIVE >> ~/.temp/status_report.txt
