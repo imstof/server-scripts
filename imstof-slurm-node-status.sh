@@ -40,13 +40,13 @@ sinfo -o '%E=%u=%H=%t=%N' | grep -e down -e drain -e drng -e maint > ~/.temp/sin
 echo $(date +"%Y-%m-%d") >> ~/.temp/status_report.txt
 echo >> ~/.temp/status_report.txt
 echo "=== DOWN ===" >> ~/.temp/status_report.txt
-cat ~/.temp/sinfo_out.txt | awk -F "=" '/down/ {printf "%-23.20s%-7.5s%-22s%-7s%s.\n", $1,$2,$3,$4,$5}' >> ~/.temp/status_report.txt
+cat ~/.temp/sinfo_out.txt | awk -F "=" '/down/ {printf "%-23.20s%-7.5s%-22s%-8s%s.\n", $1,$2,$3,$4,$5}' >> ~/.temp/status_report.txt
 echo >> ~/.temp/status_report.txt
 echo "=== DRAIN WITH ISSUES ===" >> ~/.temp/status_report.txt
-cat ~/.temp/sinfo_out.txt | awk -F "=" '/drain|drng|maint/ {if ($1 != toupper($1)) printf "%-23.20s%-7.5s%-22s%-7s%s\n", $1,$2,$3,$4,$5}' >> ~/.temp/status_report.txt
+cat ~/.temp/sinfo_out.txt | awk -F "=" '/drain|drng|maint/ {if ($1 != toupper($1)) printf "%-23.20s%-7.5s%-22s%-8s%s\n", $1,$2,$3,$4,$5}' >> ~/.temp/status_report.txt
 echo >> ~/.temp/status_report.txt
 echo "=== DRAIN ON PURPOSE ===" >> ~/.temp/status_report.txt
-cat ~/.temp/sinfo_out.txt | awk -F "=" '/drain|drng|maint/ {if ($1 == toupper($1)) printf "%-23.20s%-7.5s%-22s%-7s%s\n", $1,$2,$3,$4,$5}' >> ~/.temp/status_report.txt
+cat ~/.temp/sinfo_out.txt | awk -F "=" '/drain|drng|maint/ {if ($1 == toupper($1)) printf "%-23.20s%-7.5s%-22s%-8s%s\n", $1,$2,$3,$4,$5}' >> ~/.temp/status_report.txt
 echo >> ~/.temp/status_report.txt
 echo "=== Jobs stuck in CG State ===" >> ~/.temp/status_report.txt
 #pipe through awk in case job_name has "CG" in string
