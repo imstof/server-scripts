@@ -39,7 +39,7 @@ sinfo -h -t alloc,idle -o %n=%C/=%O=%T | cut -d'/' -f1,5 | sed 's/\///' >> /tmp/
 # report problem nodes
 echo $(date +"%Y-%m-%d") >> /tmp/load_report.txt
 echo
-echo " NODE  CORES  LOAD    STATE" >> /tmp/load_report.txt
+echo " NODE   CPUS  LOAD    STATE" >> /tmp/load_report.txt
 echo "============================" >> /tmp/load_report.txt
 echo
 
