@@ -26,7 +26,7 @@ do
 			exit 0
 			;;
 		\?)
-			echo "Invalid option: $OPTARG"
+			echo "Invalid option: -$OPTARG"
 			echo "Try '`basename $0` -h' for help"
 			exit 1
 			;;
