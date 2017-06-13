@@ -75,12 +75,20 @@ do
 	then
 		ipmitool -I lanplus -H $node.ipmi.cluster -U root -P calvin sel list >> $file1
 	fi
-	echo $(date +"%Y-%m-%d") >> $file0
-	echo $node >> $file0
+
+	echo "$node-$(date +"%Y-%m-%d")" >> $file0
 	ipmitool -I lanplus -H $node.ipmi.cluster -U root -P calvin sel list >> $file0
+
 	if [[ -n $(diff $file0 $file1 | grep $event) ]] 
 	then
-		mail -s "$node SEL event $(date +"%Y-%m-%d % %T")"q cehnstrom@techsquare.com < $file0
+		if [[ $nomail == false ]]
+		then
+			mail -s "$node SEL event $(date +"%Y-%m-%d % %T")" cehnstrom@techsquare.com < $file0
+		else 
+			echo "$node SEL event $(date +"%Y-%m-%d %T")"
+			echo "========================================="
+			cat $file0
+		fi
 	fi
 	rm /tmp/sel-$node-$(date --date="2 days ago" +"%Y-%m-%d").txt
 done
