@@ -62,9 +62,6 @@ else
 	nodelist=$(nodeset -e $nodes)
 fi
 
-echo $nodes		#test
-echo $event		#test
-echo $nodelist		#test
 
 for node in $nodelist
 do
