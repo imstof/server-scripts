@@ -45,7 +45,7 @@ echo
 
 for i in $(cat /tmp/load_data.txt)
 do
-#	cores=$(echo $i | awk -F "=" '{printf "%s\n", $2}')
+	cores=$(echo $i | awk -F "=" '{printf "%s\n", $2}')
 	load=$(echo $i | awk -F "=" '{printf "%s\n", $3}')
 	state=$(echo $i | awk -F "=" '{printf "%s\n", $4}')
 # report if load is greater than 10 on idle node

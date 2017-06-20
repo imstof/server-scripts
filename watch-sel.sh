@@ -80,7 +80,7 @@ do
 	then
 		if [[ $nomail == false ]]
 		then
-			mail -s "$node SEL event $(date +"%Y-%m-%d % %T")" cehnstrom@techsquare.com < $file0
+			mail -s "$node SEL event $(date +"%Y-%m-%d %T")" cehnstrom@techsquare.com < $file0
 		else 
 			echo "$node SEL event $(date +"%Y-%m-%d %T")"
 			echo "========================================="
