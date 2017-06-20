@@ -45,11 +45,11 @@ echo
 
 for i in $(cat /tmp/load_data.txt)
 do
-#	cores=$(echo $i | awk -F "=" '{printf "%s\n", $2}')
+	cores=$(echo $i | awk -F "=" '{printf "%s\n", $2}')
 	load=$(echo $i | awk -F "=" '{printf "%s\n", $3}')
 	state=$(echo $i | awk -F "=" '{printf "%s\n", $4}')
 # report if load is greater than 10 on idle node
-	if [[ $(echo $load '>' 10 | bc) == 1 && $cores == 0 ]]
+	if [[ $(echo $load '>' 10 | bc) == 1 && $state == "idle" ]]
 	then
 		echo $i | awk -F "=" '{printf "%-9s%-4s%1-10s%s\n",$1,$2,$3,$4}' >> /tmp/load_report.txt
 # report if load is greater than 100
