@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # scrpit to monitor sel log for recent or specific activity.
-# WHERE TO RUN?? No ipmi on service002, no nodeset on console/eofe1|45|7
 
 # help func
 show_help(){
@@ -70,21 +69,17 @@ do
 # create day-olde file if it does not exist (for 1st day)
 	if [[ ! -e $file1 ]]
 	then
-		ipmitool -I lanplus -H $node.ipmi.cluster -U root -P calvin sel list >> $file1
+		ipmitool -I lanplus -H $node.ipmi.cluster -U root -P calvin sel list > $file1
 	fi
 
-	echo "$node-$(date +"%Y-%m-%d")" >> $file0
-	ipmitool -I lanplus -H $node.ipmi.cluster -U root -P calvin sel list >> $file0
+	echo "$node-$(date +"%Y-%m-%d")" > $file0
+	ipmitool -I lanplus -H $node.ipmi.cluster -U root -P calvin sel list > $file0
 
 	if [[ -n $(diff $file0 $file1 | grep $event) ]] 
 	then
 		if [[ $nomail == false ]]
 		then
-<<<<<<< HEAD
-			mail -s "$node SEL event $(date +"%Y-%m-%d  %T")" cehnstrom@techsquare.com < $file0
-=======
 			mail -s "$node SEL event $(date +"%Y-%m-%d %T")" cehnstrom@techsquare.com < $file0
->>>>>>> 202506fdb7a6816ecb9afa70138f6204f7cf2f98
 		else 
 			echo "$node SEL event $(date +"%Y-%m-%d %T")"
 			echo "========================================="
