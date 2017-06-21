@@ -49,10 +49,11 @@ do
 	load=$(echo $i | awk -F "=" '{printf "%s\n", $3}')
 	state=$(echo $i | awk -F "=" '{printf "%s\n", $4}')
 # report if load is greater than 10 on idle node
-	if [[ $(echo $load '>' 10 | bc) == 1 && $state == "idle" ]]
+	if [[ $(echo $load '>' 2 | bc) == 1 && $state == "idle" ]]
 	then
 		echo $i | awk -F "=" '{printf "%-9s%-4s%1-10s%s\n",$1,$2,$3,$4}' >> /tmp/load_report.txt
 # report if load is greater than 100
+# percent of cores allocated +10
 	elif [[ $(echo $load '>' 100 | bc) == 1 ]]
 	then
 		echo $i | awk -F "=" '{printf "%-9s%-4s%1-10s%s\n",$1,$2,$3,$4}' >> /tmp/load_report.txt

@@ -1,4 +1,5 @@
 #!/bin/bash
+#define paths!
 
 # slurm daily node status rewrite
 
@@ -34,6 +35,11 @@ do
 done
 
 # pull reason,user,timestamp,state,node from sinfo
+
+# use -t for states!
+# use mktemp!
+# capture sterr!
+
 sinfo -o '%E=%u=%H=%t=%N' | grep -e down -e drain -e drng -e maint > /tmp/sinfo_out.txt
 
 # format output in file for email or echo

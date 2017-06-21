@@ -89,3 +89,6 @@ do
 	rm /tmp/sel-$node-$(date --date="2 days ago" +"%Y-%m-%d").txt
 done
 
+#not /tmp. make a home
+#sel elist
+#nagios writing plugins (google)
