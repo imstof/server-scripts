@@ -10,6 +10,7 @@ show_help(){
 	echo
 	echo "	-n HOSTNAME"
 	echo "		hostname to be monitored"
+	echo "		can also be IP address or FQDN"
 	echo "	-h"
 	echo "		display this help and exit"
 	echo
@@ -43,5 +44,5 @@ fi
 if [[ -n $(ping -qc5 $node | grep ' 0% packet loss') ]]
 then
 	echo "ping" | mail -s "$node is pinging" cehnstrom@techsquare.com
-	#crontab -l | sed '/node/
+	crontab -l | sed /pingcheck -n $node/d | crontab -
 fi
