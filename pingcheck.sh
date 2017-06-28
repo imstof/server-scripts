@@ -44,5 +44,5 @@ fi
 if [[ -n $(ping -qc5 $node | grep ' 0% packet loss') ]]
 then
 	echo "ping" | mail -s "$node is pinging" cehnstrom@techsquare.com
-	crontab -l | sed /pingcheck -n $node/d | crontab -
+	crontab -l | sed /pingcheck\ -n\ $node/d | crontab -
 fi
