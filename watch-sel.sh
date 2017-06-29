@@ -64,8 +64,8 @@ fi
 
 for node in $nodelist
 do
-	file0=/sel-watch/sel-$node-$(date +"%Y-%m-%d").txt
-	file1=/sel-watch/sel-$node-$(date --date="yesterday" +"%Y-%m-%d").txt
+	file0=/home/imstof/sel-watch/sel-$node-$(date +"%Y-%m-%d").txt
+	file1=/home/imstof/sel-watch/sel-$node-$(date --date="yesterday" +"%Y-%m-%d").txt
 # create day-olde file if it does not exist (for 1st day)
 	if [[ ! -e $file1 ]]
 	then
@@ -86,7 +86,7 @@ do
 			cat $file0
 		fi
 	fi
-	rm /sel-watch/sel-$node-$(date --date="2 days ago" +"%Y-%m-%d").txt
+	rm /home/imstof/sel-watch/sel-$node-$(date --date="2 days ago" +"%Y-%m-%d").txt
 done
 
 #sel elist

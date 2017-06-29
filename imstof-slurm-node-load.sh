@@ -2,6 +2,11 @@
 
 # rewrite of slurm load script
 
+# create temp files
+load_dir=$(mktemp -d `basename $0`.XXX)
+load_data=$(mktemp $load_dir/`basename $0`.XXX.txt)
+load_report=$(mktemp $load_dir/`basename $0`.XXX.txt)
+
 # help func
 show_help() {
 	echo
@@ -48,13 +53,13 @@ do
 	cores=$(echo $i | awk -F "=" '{printf "%s\n", $2}')
 	load=$(echo $i | awk -F "=" '{printf "%s\n", $3}')
 	state=$(echo $i | awk -F "=" '{printf "%s\n", $4}')
-# report if load is greater than 10 on idle node
-	if [[ $(echo $load '>' 2 | bc) == 1 && $state == "idle" ]]
+# report if load is greater than 2 on idle node
+	if [[ $(echo $load '> 2' | bc) == 1 && $state == "idle" ]]
 	then
 		echo $i | awk -F "=" '{printf "%-9s%-4s%1-10s%s\n",$1,$2,$3,$4}' >> /tmp/load_report.txt
-# report if load is greater than 100
-# percent of cores allocated +10
-	elif [[ $(echo $load '>' 100 | bc) == 1 ]]
+# report if load is greater than cores+((0.1)cores)
+#	elif [[ $(echo $load '>' 100 | bc) == 1 ]]
+	elif [[ $(echo $cores '*0.1+' $cores '<' $load | bc) == 1 ]]
 	then
 		echo $i | awk -F "=" '{printf "%-9s%-4s%1-10s%s\n",$1,$2,$3,$4}' >> /tmp/load_report.txt
 	fi
@@ -69,5 +74,4 @@ else
 fi
 
 # remove tmp files
-rm /tmp/load_data.txt
-rm /tmp/load_report.txt
+trap 'rm -r $load_dir' EXIT
