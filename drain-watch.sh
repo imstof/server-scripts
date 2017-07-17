@@ -61,7 +61,8 @@ do
 #else add the line to crontab
 			crontab -l | sed "$ a\*\/15 7-18 * * 1-5 \/home\/imstof\/bin\/drain-watch -n $node" | crontab -
 		fi
-	else
+	fi
+
 #check for drained state
 		if [[ -z $(scontrol -a show node $node | grep -e State=IDLE+DRAIN -e "State=IDLE\*+DRAIN") ]]
 		then
@@ -69,5 +70,4 @@ do
 		echo "Node $node is drained" | mail -s "$node drained" cehnstrom@techsquare.com < echo $(scontrol -a show node $node | grep -e State=IDLE+DRAIN -e "State=IDLE\*+DRAIN")
 		crontab -l | sed "/watch-node -n $node/d" | crontab -
 		fi
-	fi
 done
