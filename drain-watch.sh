@@ -64,10 +64,10 @@ do
 	fi
 
 #check for drained state
-		if [[ -z $(scontrol -a show node $node | grep -e State=IDLE+DRAIN -e "State=IDLE\*+DRAIN") ]]
-		then
+	if [[ -z $(scontrol -a show node $node | grep -e State=IDLE+DRAIN -e "State=IDLE\*+DRAIN") ]]
+	then
 #if drained then send mail and remove crontab line
-		echo "Node $node is drained" | mail -s "$node drained" cehnstrom@techsquare.com < echo $(scontrol -a show node $node | grep -e State=IDLE+DRAIN -e "State=IDLE\*+DRAIN")
-		crontab -l | sed "/watch-node -n $node/d" | crontab -
-		fi
+	echo "Node $node is drained" | mail -s "$node drained" cehnstrom@techsquare.com < echo $(scontrol -a show node $node | grep -e State=IDLE+DRAIN -e "State=IDLE\*+DRAIN")
+	crontab -l | sed "/watch-node\ -n\ $node/d" | crontab -
+	fi
 done
