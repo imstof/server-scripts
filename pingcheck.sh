@@ -20,7 +20,7 @@ while getopts :hn: opt
 do
 	case $opt in
 		n)
-			node=$OPTARG
+			nodes=$OPTARG
 			;;
 		h)
 			show_help
@@ -34,15 +34,32 @@ do
 	esac
 done
 
-if [[ -z $node ]]
+if [[ -z $nodes ]]
 then
 	echo "Option -n must be specified"
 	echo "Try '`basename $0` -h' for help"
 	exit 1
+else
+	nodelist=$(nodeset -e $nodes)
 fi
 
-if [[ -n $(ping -qc5 $node | grep ' 0% packet loss') ]]
-then
-	echo "ping" | mail -s "$node is pinging" cehnstrom@techsquare.com
-	crontab -l | sed /pingcheck\ -n\ $node/d | crontab -
-fi
+for node in $nodelist
+do
+# check for/add entry to crontab
+	if [[ -z $(crontab -l | grep "pingcheck -n $node") ]]
+	then
+	#sed won't '$ a' to empty crontab, echo the single line
+		if [[ -z $(crontab -l) ]]
+		then
+			echo "*/1 * * * * /home/imstof/bin/pingcheck -n $node" | crontab -
+		else
+			crontab -l | sed "$ a\*\/1 7-18 * * 1-5 \/home\/imstof\/bin\/pingcheck -n $node" | crontab -
+		fi
+	fi
+
+	if [[ -n $(ping -qc5 $node | grep ' 0% packet loss') ]]
+	then
+		echo "ping" | mail -s "$node is pinging" cehnstrom@techsquare.com
+		crontab -l | sed /pingcheck\ -n\ $node/d | crontab -
+	fi
+done
