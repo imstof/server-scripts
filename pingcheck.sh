@@ -9,8 +9,9 @@ show_help(){
 	echo "Test ping of host and email when 0% packet loss is reported"
 	echo
 	echo "	-n HOSTNAME"
-	echo "		hostname to be monitored"
-	echo "		can also be IP address or FQDN"
+	echo "		hostname(s) to be monitored"
+	echo "		can be any combination of node, nodeset, ipv4 addresses, or FQDNs" 
+	echo "		seperated by commas (no spaces)"
 	echo "	-h"
 	echo "		display this help and exit"
 	echo
