@@ -62,9 +62,12 @@ do
 # check state
 	if [[ -n $(scontrol -a show node $node | grep -e IDLE+DRAIN -e "IDLE\*+DRAIN") ]]
 	then
-		echo "$node is ready." | mail -s "$node is ready" cehnstrom@techsquare.com < $(scontrol -a show node $node) 2>&1
+		file=$(mktemp `basename $0`.XXXXXX)
+		scontrol -a show node $node > $file 2>&1
+		echo "$node is ready." | mail -s "$node is ready" cehnstrom@techsquare.com < $file 2>&1
+		rm $file 2>&1
 # add node to list for removal from nodeset
-	rm_node=$(echo $rm_node $node)
+		rm_node=$(echo $rm_node $node)
 	fi
 done
 
