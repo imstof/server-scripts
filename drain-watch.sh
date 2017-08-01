@@ -82,7 +82,7 @@ then
 	exit 0
 else
 	nodes=$(nodeset -f $nodes_ex)
-	at now+$interval <<< "/home/imstof/bin/drain-watch -i $interval -n $nodes" 2>&1
+	at now+$interval <<< "/home/imstof/bin/drain-watch -i \"$interval\" -n $nodes" 2>&1
 fi
 
 trap 'rm -r $dir' EXIT
