@@ -18,6 +18,7 @@ show_help(){
 }
 
 interval="15 minutes"
+dir=$(mktemp -d `basename $0`.XXX)
 
 while getopts :hn:i: opt
 do
@@ -62,12 +63,11 @@ do
 # check state
 	if [[ -n $(scontrol -a show node $node | grep -e IDLE+DRAIN -e "IDLE\*+DRAIN") ]]
 	then
-		file=$(mktemp `basename $0`.XXXXXX)
-		scontrol -a show node $node > $file 2>&1
+		file=$(mktemp $dir/`basename $0`.XXX)
+		scontrol -a show node $node > $file
 		echo "$node is ready." | mail -s "$node is ready" cehnstrom@techsquare.com < $file 2>&1
-		rm $file 2>&1
 # add node to list for removal from nodeset
-		rm_node=$(echo $rm_node $node)
+	rm_node=$(echo $rm_node $node)
 	fi
 done
 
@@ -82,5 +82,7 @@ then
 	exit 0
 else
 	nodes=$(nodeset -f $nodes_ex)
-	at now+$interval <<< /home/imstof/bin/drain-watch -i $interval -n $nodes 2>&1
+	at now+$interval <<< "/home/imstof/bin/drain-watch -i $interval -n $nodes" 2>&1
 fi
+
+trap 'rm -r $dir' EXIT
