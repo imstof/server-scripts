@@ -12,6 +12,11 @@ scontrol update state=drain reason=git586_fan_issue node=$NODES
 #Drained and DONE# node[536-551,609-615]
 #Which leaves...# node[552,600-608]
 
+#Drained and DONE# node[552,600-608]
 
-#no root ipmi# node[537,540,609]
+
+#Which leaves...#
+
+#node552 not-responding#
+#no root ipmi# node[537,540,600,608,609]
 
