@@ -4,19 +4,3 @@ NODES=$(scontrol show node node[484-619] | grep -B 2 IDLE | grep Name | sed 's/^
 NODES=$(scontrol show node node[536-552,600-615] | grep -B 2 IDLE | grep Name | sed 's/^ *//g' | sed 's/ /=/g' | cut -d"=" -f2 | nodeset -f)
 
 scontrol update state=drain reason=git586_fan_issue node=$NODES
-
-
-#Drained and DONE# node[484-535,553-599,616-619]
-#Which leaves...# node[536-552,600-615]
-
-#Drained and DONE# node[536-551,609-615]
-#Which leaves...# node[552,600-608]
-
-#Drained and DONE# node[552,600-608]
-
-
-#Which leaves...#
-
-#node552 not-responding#
-#no root ipmi# node[537,540,600,608,609]
-
