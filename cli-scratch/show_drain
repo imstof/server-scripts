@@ -1,0 +1,6 @@
+
+NODES=$(scontrol show node node[484-619] | grep -B 2 IDLE | grep Name | sed 's/^ *//g' | sed 's/ /=/g' | cut -d"=" -f2 | nodeset -f)
+
+NODES=$(scontrol show node node[536-552,600-615] | grep -B 2 IDLE | grep Name | sed 's/^ *//g' | sed 's/ /=/g' | cut -d"=" -f2 | nodeset -f)
+
+scontrol update state=drain reason=git586_fan_issue node=$NODES
