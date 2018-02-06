@@ -54,7 +54,7 @@ done
 
 if [[ -z $nodes ]]
 then
-	echo "Option -h must be specified"
+	echo "Option -n must be specified"
 	echo "Try '`basename $0` -h' for help"
 	exit 1
 else
@@ -88,6 +88,3 @@ do
 	fi
 	rm /home/imstof/sel-watch/sel-$node-$(date --date="2 days ago" +"%Y-%m-%d").txt
 done
-
-#sel elist
-#nagios writing plugins (google)
