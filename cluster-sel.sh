@@ -26,6 +26,7 @@ event="Asserted"
 
 report_file=/home/imstof/sel-cluster/REPORT-$(date +'%Y-%m-%d').txt
 err_file=/home/imstof/sel-cluster/ERRORS-$(date +'%Y-%m-%d').txt
+node_err=/home/imstof/sel-cluster/node_err.txt
 
 while getopts :htn:e: opt
 do
@@ -84,7 +85,13 @@ do
 	fi
 
 	echo "$node-$(date +'%Y-%m-%d')" > $file0
-	ipmitool -I lanplus -H $node.ipmi.cluster -U root -P calvin sel elist 2>$err_file > $file0
+	ipmitool -I lanplus -H $node.ipmi.cluster -U root -P calvin sel elist 2>$node_err > $file0
+
+	if [[ -n $(cat $node_err) ]]
+	then
+		echo $node >> $err_file
+		cat $node_err >> $err_file
+	fi
 
 	if [[ -n $(diff $file0 $file1 | grep $event) ]] 
 	then
@@ -92,17 +99,22 @@ do
 		then
 			echo "$node SEL event $(date +'%Y-%m-%d')" >> $report_file
 			echo "===========================" >> $report_file
-			echo $(diff $file0 $file1 | grep $event) >> $report_file
+			tail $file1 >> $report_file
 			echo >> $report_file
 		else 
 			echo "$node SEL event $(date +'%Y-%m-%d')"
 			echo "==========================="
-			cat $(diff $file0 $file1 | grep $event)
+			diff $file0 $file1 | grep $event
 			echo
 		fi
 	fi
 	rm /home/imstof/sel-cluster/sel-$node-$(date --date="2 days ago" +'%Y-%m-%d').txt 2>/dev/null
 done
+
+if [[ -z $(sed '1,3d' $report_file) ]]
+then
+	echo "No SEL events to report" >> $report_file
+fi
 
 mail -s "SEL EVENT REPORT - $(date +'%Y-%m-%d')" cehnstrom@techsquare.com < $report_file
 mail -s "IPMI ERRORS - $(date +'%Y-%m-%d')" cehnstrom@techsquare.com < $err_file
