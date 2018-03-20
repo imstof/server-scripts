@@ -39,16 +39,16 @@ do
 done
 
 # pull nodename,cpus,load,state to file
-sinfo -h -t alloc,idle -o %n=%C/=%O=%T | cut -d'/' -f1,5 | sed 's/\///' >> /tmp/load_data.txt
+sinfo -h -t alloc,idle -o %n=%C/=%O=%T | cut -d'/' -f1,5 | sed 's/\///' >> $load_data
 
 # report problem nodes
-echo $(date +"%Y-%m-%d") >> /tmp/load_report.txt
+echo $(date +"%Y-%m-%d") >> $load_report
 echo
-echo " NODE   CPUS  LOAD    STATE" >> /tmp/load_report.txt
-echo "============================" >> /tmp/load_report.txt
+echo " NODE   CPUS  LOAD    STATE" >> $load_report
+echo "============================" >> $load_report
 echo
 
-for i in $(cat /tmp/load_data.txt)
+for i in $(cat $load_data)
 do
 	cores=$(echo $i | awk -F "=" '{printf "%s\n", $2}')
 	load=$(echo $i | awk -F "=" '{printf "%s\n", $3}')
@@ -56,21 +56,21 @@ do
 # report if load is greater than 2 on idle node
 	if [[ $(echo $load '> 2' | bc) == 1 && $state == "idle" ]]
 	then
-		echo $i | awk -F "=" '{printf "%-9s%-4s%1-10s%s\n",$1,$2,$3,$4}' >> /tmp/load_report.txt
+		echo $i | awk -F "=" '{printf "%-9s%-4s%1-10s%s\n",$1,$2,$3,$4}' >> $load_report
 # report if load is greater than cores+((0.1)cores)
 #	elif [[ $(echo $load '>' 100 | bc) == 1 ]]
-	elif [[ $(echo $cores '*0.1+' $cores '<' $load | bc) == 1 ]]
+	elif [[ $cores -gt 0 && $(echo $cores '*0.1+' $cores '<' $load | bc) == 1 ]]
 	then
-		echo $i | awk -F "=" '{printf "%-9s%-4s%1-10s%s\n",$1,$2,$3,$4}' >> /tmp/load_report.txt
+		echo $i | awk -F "=" '{printf "%-9s%-4s%1-10s%s\n",$1,$2,$3,$4}' >> $load_report
 	fi
 done
 
 # display or mail report
 if ( $nomail == true )
 then
-	cat /tmp/load_report.txt
+	cat $load_report
 else
-	mail -s	"slurm-daily-node-load LOAD $(hostname) $(date +"%Y-%m-%d")" cehnstrom@techsquare.com < /tmp/status_report.txt
+	mail -s	"slurm-daily-node-load LOAD $(hostname) $(date +"%Y-%m-%d")" cehnstrom@techsquare.com < $load_report
 fi
 
 # remove tmp files
