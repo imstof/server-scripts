@@ -9,7 +9,6 @@ do
 	echo "adding 10g-mac $MAC and nic1-mac $N1MAC to /home/imstof/10g-dhcp"
 	echo "host $node-10g {
      hardware ethernet $MAC;
-     filename \"custom/uefi/elilo.efi\";
      fixed-address $node.inband.cluster;
 }
 
