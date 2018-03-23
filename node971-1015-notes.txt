@@ -1,0 +1,57 @@
+NOTE - racadm commands are not case-sensitive EXCEPT FOR THE VALUE you pass to them
+To enable 10g port and dedicate idrac port
+
+get mac from "mezzanine" slot 1 device (usually p3p1) for dhcp
+enable device in /etc/sysconfig/network-scripts/ifcfg-p3p1
+dedicate idrac with:
+
+racadm set idrac.nic.selection 1
+
+check with:
+
+racadm getniccfg
+...
+  LOM Status:
+  NIC Selection   = Dedicated
+  Link Detected   = Yes
+  Active NIC      = Dedicated
+...
+
+To enable pxe boot on 10g port
+NOTE device values will change in racadm if you have rebooted since disabling nic1.
+
+get device FQDDs (Fully Qualified Device Descriptor) with:
+
+racadm get nic.nicconfig
+  NIC.nicconfig.1 [Key=NIC.Mezzanine.3-1-1#nicconfig]
+  NIC.nicconfig.2 [Key=NIC.Mezzanine.3-2-1#nicconfig]
+
+racadm get bios.networksettings.pxedev1endis
+  [Key=BIOS.Setup.1-1#networksettings] (only needed for UEFI)
+
+enable legacy pxe on device with:
+
+racadm set nic.nicconfig.1.legacybootproto PXE
+
+enable pxe device for EUFI with:
+
+racadm set bios.networksettings.pxedev1endis Enabled
+
+schedule jobs with:
+
+racadm jobqueue create NIC.Mezzanine.3-1-1
+racadm jobqueue create BIOS.Setup.1-1
+
+reboot node
+
+one-time boot to pxe with:
+
+racadm set idrac.serverboot.bootonce 1
+racadm set idrac.serverboot.firstbootdevice PXE
+
+NOTE sometimes the one-time boot did not work. resetting values to '0' and 'Normal' then back to '1' and 'PXE' should fix it. In one instance, I had to reset to '0, Normal' and reboot to clear error
+
+scripts I used are:
+
+/home/imstof/serverscripts/dhcp-10g-ipmi-loop.sh
+/home/imstof/serverscripts/10g-pxe-config.sh

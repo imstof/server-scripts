@@ -1,8 +1,8 @@
-!/bin/bash
+#!/bin/bash
 
 #get FQDDs for device and bios
 DEV0=$(racadm get nic.nicconfig | awk '/Mezzanine/ {print $1;exit}')
-DEV1=$(racadm get nic.nicconfig | awk -F'[=#]' '{print $2;exit}')
+DEV1=$(racadm get nic.nicconfig | awk -F'[=#]' '/Mezzanine/ {print $2;exit}')
 if [[ $(racadm get bios.biosbootsettings | awk -F = '/BootMode/ {print $2}') == "Uefi" ]]
 then
 	BIOS=$(racadm get bios.networksettings.pxedev1endis  | awk -F'[=#]' '{print $2;exit}')
