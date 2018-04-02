@@ -1,0 +1,33 @@
+# C6420
+
+# BIOS
+
+racadm get bios.biosbootsettings.bootseq
+[Key=BIOS.Setup.1-1#biosbootsettings]
+BootSeq=HardDisk.List.1-1,NIC.Mezzanine.3-1-1
+
+racadm set bios.biosbootsettings.bootseq HardDisk.List.1-1,NIC.Mezzanine.3-1-1
+[Key=BIOS.Setup.1-1#biosbootsettings]
+RAC1017: Successfully modified the object value and the change is in 
+       pending state.
+
+racadm jobqueue create bios.setup.1-1
+RAC1024: Successfully scheduled a job.
+Verify the job status using "racadm jobqueue view -i JID_xxxxx" command.
+Commit JID = JID_227078295481
+
+#EUFI
+
+ racadm get bios.biosbootsettings.uefibootseq
+[Key=BIOS.Setup.1-1#biosbootsettings]
+UefiBootSeq=Disk.SATAEmbedded.A-1,Unknown.Unknown.2-1,NIC.PxeDevice.1-1
+
+racadm set bios.biosbootsettings.uefibootseq Disk.SATAEmbedded.A-1,NIC.PxeDevice.1-1
+[Key=BIOS.Setup.1-1#biosbootsettings]
+RAC1017: Successfully modified the object value and the change is in 
+       pending state.
+
+racadm jobqueue create bios.setup.1-1
+RAC1024: Successfully scheduled a job.
+
+#reboot

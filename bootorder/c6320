@@ -1,4 +1,4 @@
-# C4130
+# C6320
 
 racadm get bios.biosbootsettings.bootseq
 [Key=BIOS.Setup.1-1#biosbootsettings]
@@ -12,6 +12,6 @@ RAC1017: Successfully modified the object value and the change is in
 racadm jobqueue create bios.setup.1-1
 RAC1024: Successfully scheduled a job.
 Verify the job status using "racadm jobqueue view -i JID_xxxxx" command.
+Commit JID = JID_227062656131
 
 #reboot
-#may be necessary to power cycle
