@@ -1,0 +1,51 @@
+PowerEdge C4130
+node[235,737-756,930-941]
+ 
+PowerEdge C6320
+node[621-736,942-969]
+ 
+PowerEdge C6420
+node[1015-1016,1018,1028-1030]
+ 
+PowerEdge R430
+node[313-320,443-467]
+ 
+PowerEdge R630
+node[127,236-308,321-328,428-433,468-483]
+ 
+PowerEdge R640
+node[1031-1032]
+ 
+PowerEdge R720
+node[001-016,019-036,073-088,091-098,100-108,112-126,128,131-234]
+ 
+PowerEdge R730
+node[309-312,442,970]
+ 
+PowerEdge R930
+node[757-761]
+ 
+ProLiant DL160 Gen9
+node[420-422]
+ 
+ProLiant DL360 Gen9
+node[414-419,424-425]
+ 
+ProLiant DL380 Gen9
+node423
+ 
+ProLiant DL60 Gen9
+node[396-413]
+ 
+ProLiant XL170r Gen9
+node[484-619]
+ 
+S7200AP
+node[762-929]
+ 
+System x3550 M5
+node[329-338,343-395,434-441]
+ 
+x3850 X6
+node[339-342]
+ 
