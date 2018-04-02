@@ -1,0 +1,67 @@
+
+</>hpiLO-> show -a system1/bootconfig1 
+
+status=0
+status_tag=COMMAND COMPLETED
+Mon Apr  2 20:04:21 2018
+
+
+
+/system1/bootconfig1
+  Targets
+    bootsource1
+    bootsource2
+    bootsource3
+    bootsource4
+    bootsource5
+  Properties
+    oemhp_bootmode=Legacy
+    oemhp_secureboot=Not Available
+    oemhp_pendingbootmode=Legacy
+  Verbs
+    cd version exit show set
+
+
+/system1/bootconfig1/bootsource1
+  Targets
+  Properties
+    bootorder=3
+    bootdevice=BootFmCd     
+  Verbs
+    cd version exit show set
+
+/system1/bootconfig1/bootsource2
+  Targets
+  Properties
+    bootorder=2
+    bootdevice=BootFmDisk   
+  Verbs
+    cd version exit show set
+
+/system1/bootconfig1/bootsource3
+  Targets
+  Properties
+    bootorder=4
+    bootdevice=BootFmUSBKey 
+  Verbs
+    cd version exit show set
+
+/system1/bootconfig1/bootsource4
+  Targets
+  Properties
+    bootorder=1
+    bootdevice=BootFmNetwork1
+  Verbs
+    cd version exit show set
+
+/system1/bootconfig1/bootsource5
+  Targets
+  Properties
+    bootorder=5
+    bootdevice=BootFmNetwork2
+  Verbs
+    cd version exit show set
+
+# dump config
+
+/opt/hp/hp-scripting-tools/bin/conrep -x /opt/hp/hp-scripting-tools/etc/conrep.xml -s -f /tmp/boot_test.xml
