@@ -65,3 +65,6 @@ Mon Apr  2 20:04:21 2018
 # dump config
 
 /opt/hp/hp-scripting-tools/bin/conrep -x /opt/hp/hp-scripting-tools/etc/conrep.xml -s -f /tmp/boot_test.xml
+
+install hp-scripting-tools (centos6|7)
+install hp-health (centos6)
