@@ -55,4 +55,5 @@ tar -cf $file *.tar
 chown jwright:jwright $file
 #chown imstof:imstof $file
 
+echo "file $file created."
 rm /home/imstof/sciorcrash/*
