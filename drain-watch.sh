@@ -61,7 +61,7 @@ nodes_ex=$(nodeset -e $nodes)
 for node in $nodes_ex
 do
 # check state
-	if [[ -n $(scontrol -a show node $node | grep -e IDLE+DRAIN -e "IDLE\*+DRAIN") ]]
+	if [[ -n $(scontrol -a show node $node | grep -e IDLE+DRAIN -e "IDLE\$+DRAIN") ]]
 	then
 		file=$(mktemp $dir/`basename $0`.XXX)
 		scontrol -a show node $node > $file
