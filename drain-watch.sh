@@ -17,6 +17,13 @@ show_help(){
 	echo
 }
 
+#cleanup func
+clean_up(){
+	rm -r $dir
+}
+
+trap clean_up EXIT TERM INT
+
 interval="15 minutes"
 dir=$(mktemp -d `basename $0`.XXX)
 
@@ -85,4 +92,4 @@ else
 	at -M now+$interval <<< "/home/imstof/bin/drain-watch -i \"$interval\" -n $nodes" 2>&1
 fi
 
-trap 'rm -r $dir' EXIT
+#trap rm -r $dir EXIT
