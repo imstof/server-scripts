@@ -1,5 +1,5 @@
 #!/bin/bash
 
-#two args = ip address, status|off|on|cycle
+#two args = node, status|off|on|cycle
 
-ipmitool -Ilanplus -Uroot -Pcalvin -H $1 power $2
+ipmitool -Ilanplus -Uroot -Pcalvin -H $1.ipmi.cluster power $2
