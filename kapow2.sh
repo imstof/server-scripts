@@ -1,5 +1,8 @@
 #!/bin/bash
 
-#two args = node, status|off|on|cycle
+#two args = nodeset, status|off|on|cycle
 
-ipmitool -Ilanplus -Uroot -Pcalvin -H $1.ipmi.cluster power $2
+for node in $(nodeset -e $1)
+do
+	ipmitool -Ilanplus -Uroot -Pcalvin -H $node.ipmi.cluster power $2
+done
