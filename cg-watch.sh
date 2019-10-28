@@ -56,9 +56,10 @@ nodes_ex=$(nodeset -e $nodes)
 
 for node in $nodes_ex
 do
-	if [[ -n $(squeue -haw $node | grep -v CG) ]]
+	if [[ -z $(squeue -haw $node | grep -v CG) ]]
 	then
-		mail -s "$node is CG only" cehnstrom@techsquare.com
+		echo "trying to mail"
+		echo $node is CG only | mail -s "$node is CG only" cehnstrom@techsquare.com
 		rm_node=$(echo $rm_node $node)
 	fi
 done
@@ -71,6 +72,5 @@ done
 [[ -z $nodes_ex ]] && exit 0
 
 nodes=$(nodeset -f $nodes_ex)
-#at -M now+$interval <<< "/home/imstof/bin/cg-watch -i \"$interval\" -n $nodes" 2>/dev/null
-at -M now+$interval <<< "/home/imstof/serverscripts/cg-watch.sh i \"$interval\" -n $nodes" 2>/dev/null
-
+at -M now+$interval <<< "/home/imstof/bin/cg-watch -i \"$interval\" -n $nodes" 2>/dev/null
+#at -M now+$interval <<< "/home/imstof/serverscripts/cg-watch.sh -i \"$interval\" -n $nodes"
