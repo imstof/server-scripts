@@ -31,17 +31,12 @@ do
 	esac
 done
 
-if [[ -z $job_state ]]
-then
-	for user in $(squeue -h | awk '{print $4}' | sort -u)
-else
-	for user in $(squeue -ht $job_state | awk '{print $4}' | sort -u)
-fi
+for user in $(squeue -h | awk '{print $4}' | sort -u)
 do
 	luser=$(echo "user; list user" | cmsh | grep $user | awk '{print $1}')
 	for userq in $luser
 	do
 		echo -n $userq" "
-		squeue -hu $userq | wc -l
+		[[ -z $job_state ]] && squeue -hu $userq | wc -l || squeue -hu $userq -t $job_state | wc -l
 	done
 done
