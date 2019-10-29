@@ -1,2 +1,0 @@
-ipmitool -I lanplus -H node231.ipmi.cluster -U root -P calvin sel list
-ipmipower -h node[693-696].ipmi.cluster -uroot -pcalvin -Dlanplus --stat
