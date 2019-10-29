@@ -69,11 +69,11 @@ do
 # create day-olde file if it does not exist (for 1st day)
 	if [[ ! -e $file1 ]]
 	then
-		ipmitool -I lanplus -H $node.ipmi.cluster -U root -P calvin sel elist > $file1
+		ipmitool -I lanplus -H $node.ipmi.cluster -U root -P calvin sel elist 2>/dev/null > $file1
 	fi
 
 	echo "$node-$(date +"%Y-%m-%d")" > $file0
-	ipmitool -I lanplus -H $node.ipmi.cluster -U root -P calvin sel elist > $file0
+	ipmitool -I lanplus -H $node.ipmi.cluster -U root -P calvin sel elist 2>/dev/null > $file0
 
 	if [[ -n $(diff $file0 $file1 | grep $event) ]] 
 	then
