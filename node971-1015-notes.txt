@@ -55,3 +55,21 @@ scripts I used are:
 
 /home/imstof/serverscripts/dhcp-10g-ipmi-loop.sh
 /home/imstof/serverscripts/10g-pxe-config.sh
+
+more racadm notes:
+
+disable boot device hack?
+[root@node930 ~]# racadm set bios.biosbootsettings.bootseq NIC.Embedded.1-1-1,NIC.Embedded.2-1-1,NIC.Embedded.1-1-1
+[Key=BIOS.Setup.1-1#biosbootsettings]
+RAC1017: Successfully modified the object value and the change is in 
+       pending state.
+       To apply modified value, create a configuration job and reboot 
+       the system. To create the commit and reboot jobs, use "jobqueue" 
+       command. For more information about the "jobqueue" command, see RACADM 
+       help.
+
+[root@node930 ~]# racadm get bios.biosbootsettings.bootseq
+[Key=BIOS.Setup.1-1#biosbootsettings]
+BootSeq=NIC.Embedded.1-1-1,HardDisk.List.1-1,NIC.Embedded.2-1-1 
+	(Pending Value=,NIC.Embedded.2-1-1,NIC.Embedded.1-1-1)
+
