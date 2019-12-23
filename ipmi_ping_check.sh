@@ -5,5 +5,5 @@
 
 for node in $(nodeset -e $1)
 do
-	[[ -z $(ping -c1 $node | grep ' 0% packet loss') ]] && mail -s "$node not pinging" cehnstrom@techsquare.com
+	[[ -z $(ping -c1 $node.ipmi.cluster | grep ' 0% packet loss') ]] && mail -s "$node not pinging" cehnstrom@techsquare.com
 done
