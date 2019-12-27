@@ -7,7 +7,7 @@ show_help(){
 	echo "Summarize number of jobs by user."
 	echo
 	echo "  -t JOB_STATE"
-	echo "		Show only jobs in certain state. Any squeue job state code is viablei."
+	echo "		Show only jobs in certain state. Any squeue job state code is viable."
 	echo "  -h"
 	echo "		Display this help and exit."
 	echo
