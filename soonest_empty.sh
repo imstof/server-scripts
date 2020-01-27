@@ -24,4 +24,6 @@ do
 #	echo "SOONEST=$SOONEST on $NODE"
 done
 
-echo -n "$NODE will be finished soonest"
+echo "$NODE will be finished soonest"
+echo -n "current end time is: "
+echo $(date -d "${SOONEST:4:2}/${SOONEST:6:2}/${SOONEST:0:4} ${SOONEST:8:2}:${SOONEST:10:2}")
