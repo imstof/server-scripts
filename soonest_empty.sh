@@ -7,24 +7,36 @@ echo "checking jobs..."
 
 NODES=$(nodeset -e $1)
 SOONEST=""
-NODE=""
+LATEST=""
+SNODE=""
 
 # Get value of latest job finish
 for node in $NODES
 do
-	ENDT=$(for endt in $(squeue -haw $node -o %e);do date -d $endt +%Y%m%d%H%M;done | sort -ru | paste -s | awk '{print $1}')
+	ENDTS=$(for endt in $(squeue -haw $node -o %e);do date -d $endt +%Y%m%d%H%M;done | sort -u | paste -s | awk '{print $1}')
+	ENDTL=$(for endt in $(squeue -haw $node -o %e);do date -d $endt +%Y%m%d%H%M;done | sort -ru | paste -s | awk '{print $1}')
 
-	[[ -z $ENDT ]] && echo "$node queue is already empty" && break
-	[[ -z $NODE ]] && NODE=$node
-	[[ -z $SOONEST ]] && SOONEST=$ENDT
-	[[ $ENDT -lt $SOONEST ]] && SOONEST=$ENDT && NODE=$node
+	[[ -z $ENDTS ]] && echo "$node queue is already empty" && break
+	[[ -z $SNODE ]] && SNODE=$node
+	[[ -z $LNODE ]] && LNODE=$node
+	[[ -z $SOONEST ]] && SOONEST=$ENDTS
+	[[ -z $LATEST ]] && LATEST=$ENDTL
+	[[ $ENDTS -lt $SOONEST ]] && SOONEST=$ENDTS && SNODE=$node
+	[[ $ENDTL -gt $LATEST ]] && LATEST=$ENDTL && LNODE=$node
 
-	#test
+#	test
 #	echo $node
-#	echo "ENDT=$ENDT"
-#	echo "SOONEST=$SOONEST on $NODE"
+#	echo "ENDTS=$ENDTS"
+#	echo "ENDTL=$ENDTL"
+#	echo "SOONEST=$SOONEST on $SNODE"
+#	echo "LATEST=$LATEST on $LNODE"
+
 done
 
-echo "$NODE will be finished soonest"
+echo "$SNODE will be finished soonest"
 echo -n "current end time is: "
 echo $(date -d "${SOONEST:4:2}/${SOONEST:6:2}/${SOONEST:0:4} ${SOONEST:8:2}:${SOONEST:10:2}")
+echo
+echo "$LNODE will be finished last"
+echo -n "current end time is: "
+echo $(date -d "${LATEST:4:2}/${LATEST:6:2}/${LATEST:0:4} ${LATEST:8:2}:${LATEST:10:2}")
