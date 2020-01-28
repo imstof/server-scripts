@@ -14,6 +14,7 @@ for node in $NODES
 do
 	ENDT=$(for endt in $(squeue -haw $node -o %e);do date -d $endt +%Y%m%d%H%M;done | sort -ru | paste -s | awk '{print $1}')
 
+	[[ -z $ENDT ]] && echo "$node queue is already empty" && break
 	[[ -z $NODE ]] && NODE=$node
 	[[ -z $SOONEST ]] && SOONEST=$ENDT
 	[[ $ENDT -lt $SOONEST ]] && SOONEST=$ENDT && NODE=$node
