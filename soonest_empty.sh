@@ -13,7 +13,7 @@ SNODE=""
 # Get value of latest job finish
 for node in $NODES
 do
-	ENDTS=$(for endt in $(squeue -haw $node -o %e);do date -d $endt +%Y%m%d%H%M;done | sort -u | paste -s | awk '{print $1}')
+	ENDTS=$(for endt in $(squeue -haw $node -o %e);do date -d $endt +%Y%m%d%H%M;done | sort -ru | paste -s | awk '{print $1}')
 	ENDTL=$(for endt in $(squeue -haw $node -o %e);do date -d $endt +%Y%m%d%H%M;done | sort -ru | paste -s | awk '{print $1}')
 
 	[[ -z $ENDTS ]] && echo "$node queue is already empty" && break
