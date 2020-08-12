@@ -37,8 +37,8 @@ done
 
 echo "$SNODE will be finished soonest"
 echo -n "current end time is: "
-echo $(date -d "${SOONEST:4:2}/${SOONEST:6:2}/${SOONEST:0:4} ${SOONEST:8:2}:${SOONEST:10:2}")
+echo $(date -d "${SOONEST:4:2}/${SOONEST:6:2}/${SOONEST:0:4} ${SOONEST:8:2}:${SOONEST:10:2}:${SOONEST:12:2}")
 echo
 echo "$LNODE will be finished last"
 echo -n "current end time is: "
-echo $(date -d "${LATEST:4:2}/${LATEST:6:2}/${LATEST:0:4} ${LATEST:8:2}:${LATEST:10:2}")
+echo $(date -d "${LATEST:4:2}/${LATEST:6:2}/${LATEST:0:4} ${LATEST:8:2}:${LATEST:10:2}:${LATEST:12:2}")
