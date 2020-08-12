@@ -13,10 +13,10 @@ SNODE=""
 # Get value of latest job finish
 for node in $NODES
 do
-#	ENDTS=$(for endt in $(squeue -haw $node -o %e);do date -d $endt +%Y%m%d%H%M;done | sort -u | paste -s | awk '{print $1}')
-ENDTS=$(date -d "$(squeue -haw $node -o %e | sort -u | paste -s | cut -f1 | sed 's/T/ /')" +%Y%m%d%H%M)
-#	ENDTL=$(for endt in $(squeue -haw $node -o %e);do date -d $endt +%Y%m%d%H%M;done | sort -ru | paste -s | awk '{print $1}')
-ENDTL=$(date -d "$(squeue -haw $node -o %e | sort -ru | paste -s | cut -f1 | sed 's/T/ /')" +%Y%m%d%H%M)
+#	ENDTS=$(for endt in $(squeue -haw $node -o %e);do date -d $endt +%Y%m%d%H%M%S;done | sort -u | paste -s | awk '{print $1}')
+ENDTS=$(date -d "$(squeue -haw $node -o %e | sort -u | paste -s | cut -f1 | sed 's/T/ /')" +%Y%m%d%H%M%S)
+#	ENDTL=$(for endt in $(squeue -haw $node -o %e);do date -d $endt +%Y%m%d%H%M%S;done | sort -ru | paste -s | awk '{print $1}')
+ENDTL=$(date -d "$(squeue -haw $node -o %e | sort -ru | paste -s | cut -f1 | sed 's/T/ /')" +%Y%m%d%H%M%S)
 
 	[[ -z $ENDTS ]] && echo "$node queue is already empty" && break
 	[[ -z $SNODE ]] && SNODE=$node
