@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #make sure freeipmi module is loaded
-[[ -z $(module list | grep freeipmi 2>&1) ]] && module add freeipmi/1.3.4
+[[ -z $(module list 2>&1 | grep freeipmi) ]] && module add freeipmi/1.3.4
 
 #if powering off first check state && queue
 
